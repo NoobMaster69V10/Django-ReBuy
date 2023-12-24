@@ -1,0 +1,63 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | {{cat_name.title}}{% endblock %}
+
+{% block header %}
+        <header class="header">
+            <div class="header_top">
+                <div class="container">
+                    <div class="header_top_inner">
+                        <div class="header_user">
+                            <h6>Hi <span>name</span></h6>
+                            <a href="{% url 'sign_in' %}">(Sign in)</a>
+                        </div>
+                        <a href="{% url 'cart' %}" class="header_cart">
+                            <svg class="header_cart_icon">
+                                <use xlink:href="#cart-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="header_inner">
+                    <div class="header_middle">
+                        <a href="{% url 'main-page' %}" class="header_home">
+                            Re<span>Buy</span>
+                        </a>
+                        <form action="/" method="post" class="header_search_form">
+                            {% csrf_token %}
+                            <div class="header_search">
+                                <svg class="header_search_icon">
+                                    <use xlink:href="#search-icon"></use>
+                                </svg>
+                                {{ form.search_text }}
+                            </div>
+                            <input type="submit" class="header_search_btn" value="Search">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endblock %}
+        
+{% block content %}
+    <main class="main category">
+        <aside class="sidebar">
+            <h1 class="sidebar_title">Shop By Category</h1>
+            <ul class="sidebar_category_inner">
+                <h1 class="category_link active">{{cat_name.title}}</h1>
+                {% for cat in category %}
+                    <a href="{{cat.get_absolute_url}}" class="category_link">{{cat.title}}</a>
+                {% endfor %}
+            </ul>
+        </aside>
+        <div class="category_content">
+            {% for product in products %}
+                <a href="{{product.get_absolute_url}}" class="category_item">
+                    <img src="{{product.poster.url}}" alt="Category image">
+                    <h1>{{product.title}}</h1>
+                </a>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

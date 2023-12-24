@@ -1,0 +1,67 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | Search - {{search_word}}{% endblock %}
+
+{% block header %}
+        <header class="header">
+            <div class="header_top">
+                <div class="container">
+                    <div class="header_top_inner">
+                        <div class="header_user">
+                            <h6>Hi <span>name</span></h6>
+                            <a href="{% url 'sign_in' %}">(Sign in)</a>
+                        </div>
+                        <a href="{% url 'cart' %}" class="header_cart">
+                            <svg class="header_cart_icon">
+                                <use xlink:href="#cart-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="header_inner">
+                    <div class="header_middle">
+                        <a href="{% url 'main-page' %}" class="header_home">
+                            Re<span>Buy</span>
+                        </a>
+                        <form action="/" method="post" class="header_search_form">
+                            {% csrf_token %}
+                            <div class="header_search">
+                                <svg class="header_search_icon">
+                                    <use xlink:href="#search-icon"></use>
+                                </svg>
+                                {{ form.search_text }}
+                            </div>
+                            <input type="submit" class="header_search_btn" value="Search">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endblock %}
+
+{% block content %}
+    <main class="main">
+        <div class="search">
+            <div class="container">
+                {% if products%}
+                    <h1 class="search_title">Search result for '{{search_word}}'</h1>
+                    <ul class="search_inner">
+                        {% for product in products %}
+                            <li class="search_item">
+                                <img src="{{product.poster.url}}" alt="Search image">
+                                <div class="search_content">
+                                    <a href="{{product.get_absolute_url}}" class="search_title">{{product.title}}</a>
+                                    <h1>${{product.price}}</h1>
+                                    <a href="{% url 'cart_add' product.url %}" class="cart_link">Add to cart</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h1 class="search_title">Could not be found '{{search_word}}'</h1>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

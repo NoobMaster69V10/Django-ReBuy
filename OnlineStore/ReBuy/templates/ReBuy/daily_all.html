@@ -1,0 +1,59 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | Daily Offers{% endblock %}
+
+{% block header %}
+        <header class="header">
+            <div class="header_top">
+                <div class="container">
+                    <div class="header_top_inner">
+                        <div class="header_user">
+                            <h6>Hi <span>name</span></h6>
+                            <a href="{% url 'sign_in' %}">(Sign in)</a>
+                        </div>
+                        <a href="{% url 'cart' %}" class="header_cart">
+                            <svg class="header_cart_icon">
+                                <use xlink:href="#cart-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="header_inner">
+                    <div class="header_middle">
+                        <a href="{% url 'main-page' %}" class="header_home">
+                            Re<span>Buy</span>
+                        </a>
+                        <form action="/" method="post" class="header_search_form">
+                            {% csrf_token %}
+                            <div class="header_search">
+                                <svg class="header_search_icon">
+                                    <use xlink:href="#search-icon"></use>
+                                </svg>
+                                {{ form.search_text }}
+                            </div>
+                            <input type="submit" class="header_search_btn" value="Search">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+{% endblock %}
+{% block content %}
+    <main class="main">
+        <div class="daily_all">
+            <div class="container">
+                <h1 class="daily_all_title">All Daily Offers</h1>
+                <div class="daily_all_inner">
+                    {% for product in products %}
+                        <a href="{{product.get_absolute_url}}" class="daily_all_item">
+                            <img src="{{product.poster.url}}" alt="Image">
+                            <h1>{{product.title}}</h1>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

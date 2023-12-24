@@ -1,0 +1,60 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | {{product.title}}{% endblock %}
+
+{% block header %}
+    <header class="header">
+        <div class="header_top">
+            <div class="container">
+                <div class="header_top_inner">
+                    <div class="header_user">
+                        <h6>Hi <span>name</span></h6>
+                        <a href="{% url 'sign_in' %}">(Sign in)</a>
+                    </div>
+                    <a href="{% url 'cart' %}" class="header_cart">
+                        <svg class="header_cart_icon">
+                            <use xlink:href="#cart-icon"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header_inner">
+                <div class="header_middle">
+                    <a href="{% url 'main-page' %}" class="header_home">
+                        Re<span>Buy</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block content %}
+    <main class="main">
+        <div class="product">
+            <div class="container">
+                <div class="product_inner">
+                    <div class="product_image_slider">
+                        {% for img in product.productshots_set.all %}
+                            <div class="product_slide fade">
+                                <img src="{{img.image.url}}" alt="Product image">
+                                <a class="product_slide_prev" onclick="plusProductSlides(-1)">&#10094</a>
+                                <a class="product_slide_next" onclick="plusProductSlides(1)">&#10095</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="product_content">
+                        <h1>{{product.title}}</h1>
+                        <h3>US ${{product.price}}</h3>
+                        <a href="{% url 'buy' product.url %}" class="product_buy">Buy It Now</a>
+                        <a href="{% url 'cart_add' product.url %}" class="product_cart">Add to cart or View in cart</a>
+                    </div>
+                </div>
+                <div class="product_description">
+                    <h1>Description</h1>
+                    <div>{{product.description}}</div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

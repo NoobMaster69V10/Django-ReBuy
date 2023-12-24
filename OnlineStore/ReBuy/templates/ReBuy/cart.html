@@ -1,0 +1,72 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | Cart{% endblock %}
+
+{% block header %}
+        <header class="header">
+            <div class="header_top">
+                <div class="container">
+                    <div class="header_top_inner">
+                        <div class="header_user">
+                            <h6>Hi <span>name</span></h6>
+                            <a href="{% url 'sign_in' %}">(Sign in)</a>
+                        </div>
+                        <a href="{% url 'cart' %}" class="header_cart">
+                            <svg class="header_cart_icon">
+                                <use xlink:href="#cart-icon"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="header_inner">
+                    <div class="header_middle">
+                        <a href="{% url 'main-page' %}" class="header_home">
+                            Re<span>Buy</span>
+                        </a>
+                        <form action="/" method="post" class="header_search_form">
+                            {% csrf_token %}
+                            <div class="header_search">
+                                <svg class="header_search_icon">
+                                    <use xlink:href="#search-icon"></use>
+                                </svg>
+                                {{ form.search_text }}
+                            </div>
+                            <input type="submit" class="header_search_btn" value="Search">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+{% endblock %}
+{% block content %}
+        <main class="main">
+            <div class="cart">
+                <div class="container">
+                    <h1 class="cart_title">Shopping cart</h1>
+                    <div class="cart_inner">
+                        {% if cart %}
+                            {% for product in cart %}
+                                <div class="cart_item">
+                                    <div class="cart_left">
+                                        <img src="{{product.poster.url}}" alt="Product image">
+                                        <a href="{{product.get_absolute_url}}" class="product_name">{{product.title}}</a>
+                                    </div>
+                                    <div class="cart_right">
+                                        <h3>US ${{product.price}}</h3>
+                                        <div class="cart_actions">
+                                            <a href="{% url 'buy' product.url %}">Buy</a>
+                                            <h4>|</h4>
+                                            <a href="{% url 'remove' product.url %}">Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <h1 class="empty_cart">Cart is empty</h1>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}

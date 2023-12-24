@@ -1,0 +1,26 @@
+{% extends 'ReBuy/base.html' %}
+{% block title %}ReBuy | Sign in{% endblock %}
+
+{% block content %}
+    <main class="main sign_in">
+        <a href="{% url 'main-page' %}" class="header_home">
+            Re<span>Buy</span>
+        </a>
+        <div class="sign_in">
+            <div class="container">
+                <form action="" method="post" class="sign_in_form">
+                    {% csrf_token %}
+                    <h1>Welcome</h1>
+                    {% for field in form %}
+                        {{field.errors}}
+                        {{field.label_tag}}{{field}}
+                    {% endfor %}
+                    <label for="submit" class="sign_in_submit">
+                        <input type="submit" name="submit" value="Sign in">
+                    </label>
+                    <a href="{% url 'sign_up' %}" class="sign_up_btn">sign up</a>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}

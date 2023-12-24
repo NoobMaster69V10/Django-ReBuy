@@ -1,0 +1,113 @@
+{% extends 'ReBuy/base.html' %}
+{% load static %}
+{% block title %}ReBuy Main Page{% endblock %}
+{% block header %}
+    <header class="header">
+        <div class="header_top">
+            <div class="container">
+                <div class="header_top_inner">
+                    <div class="header_user">
+                        <h6>Hi <span>name</span></h6>
+                        <a href="{% url 'sign_in' %}">(Sign in)</a>
+                    </div>
+                    <a href="{% url 'cart' %}" class="header_cart">
+                        <svg class="header_cart_icon">
+                            <use xlink:href="#cart-icon"></use>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header_inner">
+                <div class="header_middle">
+                    <a href="{% url 'main-page' %}" class="header_home">
+                        Re<span>Buy</span>
+                    </a>
+                    <form action="/" method="post" class="header_search_form">
+                        {% csrf_token %}
+                        <div class="header_search">
+                            <svg class="header_search_icon">
+                                <use xlink:href="#search-icon"></use>
+                            </svg>
+                            {{ form.search_text }}
+                        </div>
+                        <input type="submit" class="header_search_btn" value="Search">
+                    </form>
+                </div>
+                <nav class="header_navigation">
+                    <h1 class="nav_link active">home</h1>
+                    {% for cat in categories %}
+                        <a href="{{ cat.get_absolute_url }}" class="nav_link">{{ cat.title }}</a>
+                    {% endfor %}
+                </nav>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block content %}
+    <main class="main">
+        <!-- Main Slider -->
+        <div class="container">
+            <div class="main_slider">
+                {% for slide in slider_img %}
+                    <div class="main_slide fade">
+                        <img src="{{slide.image.url}}" alt="" style="width: 100%;">
+                    </div>
+                {% endfor %}
+                <a class="slide_prev" onclick="plusSlides(-1)">&#10094</a>
+                <a class="slide_next" onclick="plusSlides(1)">&#10095</a>
+            </div>
+        </div>
+
+    <!-- Popular Categories -->
+        <div class="categories">
+            <div class="container">
+                <h1 class="categories_title">Explore Popular Categories</h1>
+                <div class="categories_inner">
+                    {% for cat in categories %}
+                        <a href="{{cat.get_absolute_url}}" class="categories_item">
+                            <img src="{{cat.image.url}}" alt="Categories image" class="categories_img">
+                            <h1 class="categories_text">{{cat.title}}</h1>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Deals -->
+        <div class="container">
+            <div class="daily_deals">
+                <div class="daily_title">
+                    <h1>Daily Deals<span>|</span></h1>
+                    <a href="{% url 'daily_all' %}"><h1>See all</h1><span>&#8594</span></a>
+                </div>
+                <div class="daily_inner" id="dailyInner">
+                    <div class="daily_slide" id="dailySlide">
+                        {% for deal in daily_deals %}
+                            <a href="{{deal.get_absolute_url}}" class="daily_item">
+                                <img src="{{deal.poster.url}}" alt="Daily image">
+                                <h1>${{deal.price}}</h1>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a class="daily_slide_prev" onclick="dailyPrev()">&#10094</a>
+                <a class="daily_slide_next" onclick="dailyNext()">&#10095</a>
+            </div>
+        </div>
+
+    <!-- Brands -->
+        <div class="brands">
+            <div class="container">
+                <div class="brands_inner">
+                    <h1>Luxury on my mind</h1>
+                    <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum, perferendis!</h4>
+                    <a href="/"><h1>Choose branded items</h1><span>&#8594</span></a>
+                    <img src="{% static 'ReBuy/img/2.jpg'%}" alt="Brand background">
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
